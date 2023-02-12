@@ -1,6 +1,5 @@
 const Carts=require("../../db/cart");
 const Users=require("../../db/user");
-//import User from "../../db/user";
 var ObjectId = require('mongoose').Types.ObjectId;
 
 //done
@@ -36,7 +35,6 @@ const createUser= async(req,res)=>{
 
 	var newCart = await {"userId":userForId._id};
 	await Carts.create(newCart);
-	//res.json(newCart);
 }
 
 //done

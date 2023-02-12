@@ -10,9 +10,10 @@ const cartSchema = new Schema({
 	notes:{
 		type:String,
 	},
-	productDetails:{
-		productName:{
-			type:Number,
+	//array of products in cart
+	products:[{
+		name:{
+		type : String,
 		},
 		quantity:{
 			type:Number,
@@ -20,7 +21,8 @@ const cartSchema = new Schema({
 		totalPrice:{
 			type:Number,
 		},
-	},
+	}
+],
 	created_by:{
 		type:String,
 	},
