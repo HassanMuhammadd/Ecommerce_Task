@@ -1,10 +1,19 @@
 const Products=require('../../db/product');
-var ObjectId = require('mongoose').Types.ObjectId;
+//var ObjectId = require('mongoose').Types.ObjectId;
+const multer = require("multer")
+const upload = multer({dest: 'uploads/'})
 
-const createProduct = async(req,res)=>{
+//done
+const createProduct = async( req,res)=>{
 	const newProduct = req.body;
 	await Products.create(newProduct);
 	res.status(201).json(newProduct)
 }
 
-module.exports = {createProduct}
+//done without sorting
+const getAllProducts = async(req,res)=>{
+	const products = await Products.find({});
+	res.json(products);
+}
+
+module.exports = {createProduct , getAllProducts}

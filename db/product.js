@@ -1,7 +1,7 @@
 //import {Schema , model} from "mongoose";
 const {Schema, model} = require("mongoose");
 
-//const bcrypt = require("bcryptjs")
+
 
 const productSchema = new Schema({
 	name: {
@@ -9,7 +9,8 @@ const productSchema = new Schema({
 		required:true,
 	},
 	image:{
-		type:String
+		type:String,
+		contentType:String
 	},
 	description: {
 		type:String,

@@ -1,6 +1,7 @@
 const Carts=require("../../db/cart");
 const Users=require("../../db/user");
 var ObjectId = require('mongoose').Types.ObjectId;
+const bcrypt = require("bcryptjs")
 
 //done
 const getUser = async(req,res)=>{
@@ -18,7 +19,7 @@ const getUser = async(req,res)=>{
 
 //done
 const createUser= async(req,res)=>{
-	const newUser = req.body;
+	let newUser = req.body;
 
 	if( await Users.findOne({"email": newUser.email}))//email already used
 	{
@@ -27,6 +28,7 @@ const createUser= async(req,res)=>{
 		})
 		return;
 	}
+
 
 	await Users.create(newUser);
 	res.status(201).json(newUser);
@@ -39,7 +41,7 @@ const createUser= async(req,res)=>{
 
 //done
 const updateUser = async(req, res) => {
-    const { name,email,password,phoneNumber,accountType } = req.body;
+    let { name,email,password,phoneNumber,accountType } = req.body;
     const { id } = req.params;
 	if(!ObjectId.isValid(id))
 	{
@@ -48,7 +50,13 @@ const updateUser = async(req, res) => {
 		})
 		return;
 	}
+
 	let oldUser = await Users.findById({"_id":ObjectId(id)});
+	const hashedPassword = await bcrypt.hash(req.body.password,10);
+	password = hashedPassword
+	console.log(password);
+
+
 	const newUser = {
 		id: id,
 		name: name || oldUser.name,

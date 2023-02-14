@@ -17,10 +17,12 @@ async function databaseCall(){
 }
 
 databaseCall();
-
 const app = express();
-app.use(express.json())
 
+//to make the uploads folder publicly visible
+app.use(express.static('uploads'));
+
+app.use(express.json());
 app.use('/',userRouter);
 app.use('/',productsRouter);
 app.use('/',cartsRouter);
