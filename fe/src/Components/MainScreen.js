@@ -17,10 +17,7 @@ export default function MainScreen() {
     return (
 	<div>
 		{
-			products.map()
-			<div>
-			products[0].name
-		</div>
+
 		}
 
 	</div>
