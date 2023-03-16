@@ -1,13 +1,9 @@
 const mongoose = require("mongoose");
-//import {mongoose} from "mongoose";
 const User  = require('./db/user');
-//import {User} from '../db/user'
 const express = require('express');
-//import { express } from "express";
 const userRouter =require('./src/router/userRouter');
 const productsRouter=require("./src/router/productsRouter");
 const cartsRouter=require("./src/router/cartsRouter");
-//import userRouter from "../src/router/userRouter";
 
 mongoose.set('strictQuery',false);
 async function databaseCall(){
@@ -23,10 +19,10 @@ const app = express();
 app.use(express.static('uploads'));
 
 app.use(express.json());
-app.use('/',userRouter);
-app.use('/',productsRouter);
-app.use('/',cartsRouter);
+app.use('/users',userRouter);
+app.use('/products',productsRouter);
+app.use('/users',cartsRouter);
 
-app.listen(3000,()=>{
-	console.log('listening to 3000');
+app.listen(5000,()=>{
+	console.log('listening to 5000');
 })

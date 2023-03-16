@@ -1,6 +1,5 @@
 const Carts=require("../../db/cart");
 const Products=require("../../db/product");
-const Users=require("../../db/user");
 
 var ObjectId = require('mongoose').Types.ObjectId;
 
@@ -26,8 +25,7 @@ const addProductToCart = async(req,res)=>{
 	newCart.products.push(pushedProduct);
 	await Carts.findOneAndUpdate({"userId":userId},newCart);
 
-	console.log(newCart.products);
-	res.json(userCart)
+	res.status(201).json(userCart)
 }
 
 //done
@@ -41,7 +39,7 @@ const deleteProductFromCart = async(req,res)=>{
 
 	userCart.products = newProducts;
 	await Carts.findOneAndUpdate({"userId":ObjectId(userId)}, userCart)
-	res.json({
+	res.status(200).json({
 		message:"Products deleted."
 	});
 }
@@ -52,7 +50,7 @@ const getUserCart = async(req,res)=>{
 
 	const cart = await Carts.findOne({"userId":ObjectId(userId)});
 	console.log(cart);
-	res.json(cart);
+	res.status(200).json(cart);
 }
 
 module.exports = { getUserCart , addProductToCart , deleteProductFromCart }

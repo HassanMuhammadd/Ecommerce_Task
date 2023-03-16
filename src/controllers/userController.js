@@ -8,13 +8,13 @@ const getUser = async(req,res)=>{
 	const {id} = req.params;
 	if(!ObjectId.isValid(id))
 	{
-		res.json({
+		res.status(404).json({
 			"message":"invalid id",
 		})
 		return;
 	}
 	const user = await Users.findById({"_id":ObjectId(id)});
-	res.json(user);
+	res.status(200).json(user);
 }
 
 //done
@@ -23,7 +23,7 @@ const createUser= async(req,res)=>{
 
 	if( await Users.findOne({"email": newUser.email}))//email already used
 	{
-		res.json({
+		res.status(404).json({
 			message:'email is already used',
 		})
 		return;
@@ -45,12 +45,18 @@ const updateUser = async(req, res) => {
     const { id } = req.params;
 	if(!ObjectId.isValid(id))
 	{
-		res.json({
+		res.status(404).json({
 			"message":"invalid id",
 		})
 		return;
 	}
-
+	if(!password)
+	{
+		res.status(404).json({
+			"message":"Password is Needed.",
+		})
+		return;
+	}
 	let oldUser = await Users.findById({"_id":ObjectId(id)});
 	const hashedPassword = await bcrypt.hash(req.body.password,10);
 	password = hashedPassword
@@ -67,7 +73,7 @@ const updateUser = async(req, res) => {
 	}
 	await Users.findByIdAndUpdate({"_id": ObjectId(id)},newUser);
 
-        res.json({
+        res.status(200).json({
 			message:"User updated."
 		});
 
@@ -79,29 +85,17 @@ const deleteUser =async (req,res)=>{
 	const {id} = req.params;
 	if(!ObjectId.isValid(id))
 	{
-		res.json({
+		res.status(404).json({
 			message:"invalid id",
 		})
 		return;
 	}
 	await Users.findOneAndDelete({"_id": ObjectId(id)});
 	await Carts.findOneAndDelete({"userId":ObjectId(id)});
-	res.json({
+	res.status(200).json({
 		message:"User deleted."
 	})
 }
 
 module.exports = {  createUser , updateUser , deleteUser , getUser }
 
-
-/*User.find({ returns an array
-		"category":req.params.category
-	})*/
-
-	/*User.findOne({ // obj
-
-	})*/
-
-	/*User.findById()*/ //obj
-
-	//users.push(newUser);

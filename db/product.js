@@ -30,8 +30,9 @@ const productSchema = new Schema({
 		type:String
 	},
 	created_at:{
-		type:String,
+		type:String
 	}
+
 
 })
 

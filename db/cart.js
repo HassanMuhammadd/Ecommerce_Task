@@ -13,7 +13,7 @@ const cartSchema = new Schema({
 	//array of products in cart
 	products:[{
 		name:{
-		type : String,
+			type : String,
 		},
 		quantity:{
 			type:Number,

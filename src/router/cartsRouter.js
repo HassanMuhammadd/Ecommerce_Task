@@ -3,9 +3,9 @@ const { getUserCart , addProductToCart , deleteProductFromCart }=require("../con
 
 const cartsRouter = Router()
 
-cartsRouter.get('/users/:userId/cart', getUserCart )
-cartsRouter.post('/users/:userId/carts/:productId', addProductToCart )
-cartsRouter.delete('/users/:userId/carts/:productId', deleteProductFromCart )
+cartsRouter.get('/:userId/cart', getUserCart )
+cartsRouter.post('/:userId/carts/:productId', addProductToCart )
+cartsRouter.delete('/:userId/carts/:productId', deleteProductFromCart )
 
 
 module.exports = cartsRouter
