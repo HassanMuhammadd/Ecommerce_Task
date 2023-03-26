@@ -2,6 +2,9 @@ const Carts=require("../../db/cart");
 const Users=require("../../db/user");
 var ObjectId = require('mongoose').Types.ObjectId;
 const bcrypt = require("bcryptjs")
+const jwt =require("jsonwebtoken");
+
+const jwt_secret = "ajkjsajfad14523q5t()[]1[p[a]rsr134afanfjasdaslaaf"
 
 //done
 const getUser = async(req,res)=>{
@@ -97,5 +100,44 @@ const deleteUser =async (req,res)=>{
 	})
 }
 
-module.exports = {  createUser , updateUser , deleteUser , getUser }
+
+const userLogin = async(req,res)=>{
+	const {email,password}=req.body;
+
+	const user = await Users.findOne({email});
+	if(!user)
+	{
+		return res.json({error:"User not found"})
+	}
+	if(await bcrypt.compare(password,user.password))
+	{
+		const token = jwt.sign({email:user.email},jwt_secret);
+
+		if(res.status(201)){
+			return res.send({status:"ok",data:token});
+		}else
+		{
+			return res.json({error:"error"});
+		}
+	}
+	res.json({status:"Error",error:"Invalid password"});
+}
+
+const userVerification = async(req,res)=>{
+	const {token} = req.body;
+	try{
+		const user = jwt.verify(token,jwt_secret);
+		const userEmail = user.email
+		await Users.findOne({email:userEmail})
+		.then((data)=>{
+			res.send({status:"ok", data:data})
+		})
+		.catch((error)=>{
+			res.send({status:"error",data:error})
+		})
+	}catch(error){
+
+	}
+}
+module.exports = {  createUser , updateUser , deleteUser , getUser , userLogin , userVerification }
 

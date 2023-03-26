@@ -1,11 +1,10 @@
 import React,{useState} from 'react'
 import LoggingIn from './LoggingIn.js'
 import SigningUp from './SigningUp.js'
+
 export default function Home() {
 	const [login,setLogin] = useState(true)
 
-	//login -> email,pass
-	//signup ->name,email,pass,phoneNum,accType
 
 
 

@@ -1,19 +1,38 @@
+import Axios from 'axios';
 import React, {useState} from 'react'
+
 
 function LoggingIn() {
 	const [email,setEmail]=useState("");
+	const [password,setPassword]=useState("")
 	const validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-
-	const handleSubmit=(e)=>{
+	const handleSubmit=async(e)=>{
 			e.preventDefault();
+			await fetch("http://localhost:5000/users/login",{
+				method:"POST",
+				crossDomain:true,
+				headers:{
+					"content-type":"application/json",
+					Accept:"application/json",
+					"Access-Control-Allow-Origin":"*",
+				},
+				body:JSON.stringify({
+					email,
+					password,
+				})
+			}).then((res)=> res.json())
+			.then((data)=>{
+				if(data.status==="ok")
+				{
+					window.localStorage.setItem("token", data.data);
+					window.localStorage.setItem("loggedIn", true);
 
-			const signupData={
-				email:e.target[0].value,
-				password:e.target[1].value,
-			}
-			console.log(signupData);
-		}
+					window.location.href="./MainScreen";
+				}
+			})
+
+	}
 
     return (
 		<form className='mt-4 homepageForm w-50 rounded-3 p-3 ' onSubmit={handleSubmit}>
@@ -23,7 +42,7 @@ function LoggingIn() {
 			<br/>
 			{(!email.toLowerCase().match(validRegex) && email.length>0 )?<p className='w-50 ms-5 text-danger my-0' >Wrong Email</p >:""}
 			<br/>
-			<input type="password" className='w-50 mb-4 ' placeholder='Password' required></input>
+			<input type="password" className='w-50 mb-4' onChange={(e)=>setPassword(e.target.value)} placeholder='Password' required></input>
 			</div>
 			<button className='btn btn-success'>Log In</button>
 			</form>
