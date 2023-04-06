@@ -136,7 +136,7 @@ const userVerification = async(req,res)=>{
 			res.send({status:"error",data:error})
 		})
 	}catch(error){
-
+		res.send({status:"error",data:error})
 	}
 }
 module.exports = {  createUser , updateUser , deleteUser , getUser , userLogin , userVerification }

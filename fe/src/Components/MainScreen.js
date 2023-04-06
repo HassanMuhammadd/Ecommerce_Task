@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import Axios from 'axios';
+import ProductsScreen from './ProductsScreen';
 
 export default function MainScreen() {
 
@@ -20,12 +21,11 @@ export default function MainScreen() {
 				"Access-Control-Allow-Origin": "*",
 			},
 			body: JSON.stringify({
-				token: window.localStorage.getItem("token"),
+				token: window.sessionStorage.getItem("token"),
 			}),
 			})
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data, "userData");
 				setUserData(data.data);
 			});
 		}
@@ -33,27 +33,18 @@ export default function MainScreen() {
     useEffect(()=>{
     	getProducts();
 		getUserFromToken();
-
     },[])
+
+	const redirect = ()=>{
+		window.location.href='./';
+	}
+
     return (
-		<div className="container py-5">
-			<h5>Hello, {userData.name}!</h5>
-			<div className='py-5 container d-flex flex-row justify-content-center'>
-				<div className="row  d-flex flex-row justify-content-start mx-auto w-100  ">
+		<div>
+		{userData.length===0?<h5 className='my-5'>You must be logged in to view this page.</h5>:<ProductsScreen userData={userData} products={products}/>}
+		{userData.length===0?<button className='btn btn-info text-white' onClick={redirect}>Redirect to login Page</button>:""}
+		</div>
 
-				{
-					products.map((product)=>{
-						return	<div key = {product.name} className='product p-4 rounded-3 col-3 m-3 d-flex flex-column align-items-start'>
-								<h4 className='mx-auto pb-3'>{product.name}</h4>
-								<h6 className='text-primary'>${product.price}</h6>
-								<p>{product.description}</p>
-								<button className='btn addToCartBtn text-white mx-auto'>Add to Cart</button>
-							</div>
-					})
-				}
-				</div>
-
-				</div>
-	</div>
     )
+
 }

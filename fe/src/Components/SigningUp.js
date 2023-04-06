@@ -28,7 +28,32 @@ function SigningUp() {
 			})
 		}).then((res)=> res.json())
 		.then((data)=>{
-			console.log(data,"SignUpp");
+			if(data.message==="email is already used"){
+				alert("Email used");
+			}else
+			{
+				//To redirect after the login
+				fetch("http://localhost:5000/users/login",{
+				method:"POST",
+				crossDomain:true,
+				headers:{
+					"content-type":"application/json",
+					Accept:"application/json",
+					"Access-Control-Allow-Origin":"*",
+				},
+				body:JSON.stringify({
+					email,
+					password,
+				})
+			}).then((res)=> res.json())
+			.then((data)=>{
+				if(data.status==="ok")
+				{
+					window.sessionStorage.setItem("token", data.data);
+					window.location.href="./Products";
+				}
+			})
+			}
 		})
 	}
 

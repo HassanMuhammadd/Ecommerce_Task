@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User  = require('./db/user');
 const express = require('express');
 const userRouter =require('./src/router/userRouter');
 const productsRouter=require("./src/router/productsRouter");

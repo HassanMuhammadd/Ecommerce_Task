@@ -20,15 +20,13 @@ function LoggingIn() {
 				body:JSON.stringify({
 					email,
 					password,
-				})
+				}),
 			}).then((res)=> res.json())
 			.then((data)=>{
 				if(data.status==="ok")
 				{
-					window.localStorage.setItem("token", data.data);
-					window.localStorage.setItem("loggedIn", true);
-
-					window.location.href="./MainScreen";
+					window.sessionStorage.setItem("token", data.data);
+					window.location.href="./Products";
 				}
 			})
 
